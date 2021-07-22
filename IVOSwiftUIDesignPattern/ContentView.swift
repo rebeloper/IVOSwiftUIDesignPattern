@@ -8,9 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var observed = Observed()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        Text("Hello, \(observed.profile.name)!")
+            .onAppear {
+                fetchProfile()
+            }
+    }
+    
+    func fetchProfile() {
+        observed.fetchProfile { err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+        }
     }
 }
 
